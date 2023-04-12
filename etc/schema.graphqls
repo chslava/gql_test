@@ -1,0 +1,22 @@
+type Query {
+    customerRecommendationLists: [RecommendationList] @resolver(class: "Decima\\FriendRecommendationsGraphQl\\Model\\Resolver\\RecommendationList")
+    @cache(cacheIdentity: "Decima\\FriendRecommendationsGraphQl\\Model\\Resolver\\RecommendationList\\Identity")
+}
+
+type RecommendationList {
+    products: [RecommendationListProduct!] @resolver(class: "Decima\\FriendRecommendationsGraphQl\\Model\\Resolver\\RecommendationList\\RecommendationListProducts")
+}
+
+type RecommendationListProduct {
+    thumbnailUrl: String @resolver(class: "Decima\\FriendRecommendationsGraphQl\\Model\\Resolver\\RecommendationList\\RecommendationListProducts\\ThumbnailUrl")
+}
+
+type Mutation {
+    createRecommendationList(
+        email: String! @doc(description: "Email this list is being shared with")
+        friendName: String! @doc(description: "Name of the friend sharing this list")
+        title: String @doc(description: "List title")
+        note: String @doc(description: "Personal note")
+        productSkus: [String!]! @doc(description: "List of SKUs being recommended")
+    ): RecommendationListSaved! @resolver(class: "Decima\\FriendRecommendationsGraphQl\\Model\\Resolver\\CreateRecommendationList")
+}
